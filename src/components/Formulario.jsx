@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import Error from "./Error";
 
 import { monedas } from "../data/monedas";
 import useSelectMonedas from "../hooks/useSelectMonedas";
@@ -26,6 +27,7 @@ const InputSubmit = styled.input`
 
 const Formulario = ()=> {
     const [criptos,setCriptos] = useState([])
+    const [error,setError] = useState(false)
     //No es necesario que lleve el mismo nombre ya que retorna por indice, en este caso "moneda" proviene de "state"
     const [moneda, SelectMonedas] = useSelectMonedas('Elige tu moneda',monedas)
     const [criptomoneda, SelectCriptomoneda] = useSelectMonedas('Elige la criptomoneda', criptos)
@@ -50,19 +52,28 @@ const Formulario = ()=> {
     },[])
     
     
-    
-
-    SelectMonedas()
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if ([moneda, criptomoneda].includes('')){
+            setError(true)
+            return
+        }
+        setError(false)
+    }
 
     return ( 
+        <>
+        {error && <Error>Todos los campos son obligatorios</Error>}
 
-        <form>
+        <form
+            onSubmit={handleSubmit}
+        >
             <SelectMonedas/>
             <SelectCriptomoneda/>
             <InputSubmit type="submit" 
-                   value="cotizar"/>
+                         value="cotizar"/>
         </form>
-
+    </>
      )
 }
 
