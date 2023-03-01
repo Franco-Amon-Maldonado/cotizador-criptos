@@ -25,7 +25,7 @@ const InputSubmit = styled.input`
 
 `
 
-const Formulario = ()=> {
+const Formulario = ({setMonedas})=> {
     const [criptos,setCriptos] = useState([])
     const [error,setError] = useState(false)
     //No es necesario que lleve el mismo nombre ya que retorna por indice, en este caso "moneda" proviene de "state"
@@ -59,6 +59,11 @@ const Formulario = ()=> {
             return
         }
         setError(false)
+        
+        setMonedas({
+            moneda,
+            criptomoneda
+        })
     }
 
     return ( 
